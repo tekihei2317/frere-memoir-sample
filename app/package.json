@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "frere-memoir",
+  "workspaces": [
+    "web",
+    "server"
+  ],
+  "license": "MIT",
+  "packageManager": "yarn@3.5.0"
+}

@@ -1,11 +1,27 @@
 import { publicProcedure } from "../trpc/init-trpc";
 import { notFoundError } from "../utils/trpc";
-import { CreateFlowerInput, FlowerIdInput } from "./api-schema";
+import {
+  CreateFlowerInput,
+  FlowerIdInput,
+  UpdateFlowerInput,
+} from "./api-schema";
 
 export const createFlower = publicProcedure
   .input(CreateFlowerInput)
   .mutation(async ({ ctx, input }) => {
     const flower = await ctx.prisma.flower.create({ data: input });
+
+    return flower;
+  });
+
+export const updateFlower = publicProcedure
+  .input(UpdateFlowerInput)
+  .mutation(async ({ ctx, input }) => {
+    const { flowerId, ...data } = input;
+    const flower = await ctx.prisma.flower.update({
+      where: { id: flowerId },
+      data,
+    });
 
     return flower;
   });

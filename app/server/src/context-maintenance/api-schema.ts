@@ -12,6 +12,8 @@ export const FlowerIdInput = z.object({
   flowerId: z.number(),
 });
 
+export const UpdateFlowerInput = FlowerIdInput.merge(CreateFlowerInput);
+
 const BouquetDetail = z.object({
   flowerId: z.number(),
   flowerQuantity: z.number(),

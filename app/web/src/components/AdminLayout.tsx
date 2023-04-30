@@ -1,20 +1,15 @@
-import { trpc } from "@/utils/trpc";
-import { Box, Button, Flex, Tabs, Title } from "@mantine/core";
-import { useRouter } from "next/router";
+import { Box, Flex, Tabs, Title } from "@mantine/core";
+import { useLocation, useNavigate } from "react-router";
 
 function rootPagePath(path: string): string {
   return path.split("/").slice(0, 2).join("/");
 }
 
 export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter();
-  const activeTab = rootPagePath(router.pathname);
-  const utils = trpc.useContext();
-  const logout = trpc.logout.useMutation({
-    onSuccess: () => {
-      utils.user.invalidate();
-    },
-  });
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const activeTab = rootPagePath(location.pathname);
 
   return (
     <Box>
@@ -22,17 +17,10 @@ export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         <Title order={1} size="h2">
           frere-memoir
         </Title>
-        <Button
-          variant="outline"
-          loading={logout.isLoading}
-          onClick={() => logout.mutate()}
-        >
-          ログアウト
-        </Button>
       </Flex>
       <Tabs
         value={activeTab}
-        onTabChange={(value) => router.push(`${value}`)}
+        onTabChange={(value) => navigate(`${value}`)}
         px="xs"
       >
         <Tabs.List>

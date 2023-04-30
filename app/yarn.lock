@@ -963,7 +963,7 @@ __metadata:
   dependencies:
     "@prisma/client": 4.13.0
     "@quramy/jest-prisma-node": ^1.4.0
-    "@trpc/server": ^10.21.1
+    "@trpc/server": ^10.23.0
     "@types/express": ^4.17.17
     "@types/node": ^18.16.0
     express: ^4.18.2
@@ -982,6 +982,10 @@ __metadata:
     "@emotion/react": ^11.10.8
     "@mantine/core": ^6.0.9
     "@mantine/hooks": ^6.0.9
+    "@tanstack/react-query": ^4.29.5
+    "@trpc/client": ^10.23.0
+    "@trpc/react-query": ^10.23.0
+    "@trpc/server": ^10.23.0
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
     "@typescript-eslint/eslint-plugin": ^5.57.1
@@ -1661,6 +1665,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:4.29.5":
+  version: 4.29.5
+  resolution: "@tanstack/query-core@npm:4.29.5"
+  checksum: 367176beccd78e959c74e69e96497b626dd1c139398501eb7a04cf92215edf262665c3e7bb59df68320779d49893d3153a3b41e750b9046655b45cfe44691b36
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^4.29.5":
+  version: 4.29.5
+  resolution: "@tanstack/react-query@npm:4.29.5"
+  dependencies:
+    "@tanstack/query-core": 4.29.5
+    use-sync-external-store: ^1.2.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-native: "*"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: de45573900810b37216aa8d6599cae5ea43602eaada9fd2224f57ff7ab1de10b3f2e681e7fdb993ee1519ed8ffc7e6e07d6bf3ad1b9da4136b1ae78ca19f31f6
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:2":
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
@@ -1668,10 +1698,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:^10.21.1":
-  version: 10.21.1
-  resolution: "@trpc/server@npm:10.21.1"
-  checksum: 7d6dcb9a3c02fde95573ee80a83b4fa120c243d8af3c53e8a3b1109ccc9348cd8fe030a6104bf16f547ca72beeed48bf0a9ab8e9239030f674d5c932d7925e70
+"@trpc/client@npm:^10.23.0":
+  version: 10.23.0
+  resolution: "@trpc/client@npm:10.23.0"
+  peerDependencies:
+    "@trpc/server": 10.23.0
+  checksum: ab5c4e62f152a28b3c9b6f8c6579e637ce16442ac6f29d8e6f8dd338e2da77eb386ad40113877dcf5471596d5c70eabc7083831c739842cdb05ca8c6735cf664
+  languageName: node
+  linkType: hard
+
+"@trpc/react-query@npm:^10.23.0":
+  version: 10.23.0
+  resolution: "@trpc/react-query@npm:10.23.0"
+  peerDependencies:
+    "@tanstack/react-query": ^4.18.0
+    "@trpc/client": 10.23.0
+    "@trpc/server": 10.23.0
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 526743ba265939310e6da2b035bf082215c0358dddd4076af101073dd6c4c6f03461cdcbfe6867100b6386eabf2a38bd7caa0d34a03f5143e111fcb929d57477
+  languageName: node
+  linkType: hard
+
+"@trpc/server@npm:^10.23.0":
+  version: 10.23.0
+  resolution: "@trpc/server@npm:10.23.0"
+  checksum: 4736ec890e1904730eb7498d27845291bebdbdb5395699d309f140ad0ef58e93dead4def72d101318124d95d999e62bcee98543ff6869554732e73f7da685b94
   languageName: node
   linkType: hard
 
@@ -6742,6 +6794,15 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 925d1922f9853e516eaad526b6fed1be38008073067274f0ecc3f56b17bb8ab63480140dd7c271f94150027c996cea4efe83d3e3525e8f3eda22055f6a39220b
+  languageName: node
+  linkType: hard
+
+"use-sync-external-store@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "use-sync-external-store@npm:1.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 5c639e0f8da3521d605f59ce5be9e094ca772bd44a4ce7322b055a6f58eeed8dda3c94cabd90c7a41fb6fa852210092008afe48f7038792fd47501f33299116a
   languageName: node
   linkType: hard
 

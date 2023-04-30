@@ -1,8 +1,10 @@
 import { router } from "../trpc/init-trpc";
-import { createBouquet } from "./bouquet-procedure";
+import { createBouquet, getBouquet, getBouquets } from "./bouquet-procedure";
 import { createFlower } from "./flower-procedure";
 
 export const maintenanceRouter = router({
   createFlower,
   createBouquet,
+  bouquets: getBouquets,
+  bouquet: getBouquet,
 });

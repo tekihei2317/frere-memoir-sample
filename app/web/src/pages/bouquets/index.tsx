@@ -1,8 +1,7 @@
-import { AdminLayout } from "@/components/AdminLayout";
-import { AdminMiddleware } from "@/utils/middleware";
-import { trpc } from "@/utils/trpc";
+import { AdminLayout } from "~/components/AdminLayout";
+import { trpc } from "~/utils/trpc";
 import { Anchor, Button, Container, Group, Table } from "@mantine/core";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
 export default function Bouquets() {
   const { data: bouquets } = trpc.bouquets.useQuery();
@@ -11,7 +10,7 @@ export default function Bouquets() {
     <AdminLayout>
       <Container size="lg">
         <Group position="right">
-          <Button component={Link} href="/bouquets/create">
+          <Button component={Link} to="/bouquets/create">
             登録する
           </Button>
         </Group>
@@ -27,7 +26,7 @@ export default function Bouquets() {
               bouquets.map((bouquet) => (
                 <tr key={bouquet.id}>
                   <td>
-                    <Anchor component={Link} href={`/bouquets/${bouquet.id}`}>
+                    <Anchor component={Link} to={`/bouquets/${bouquet.id}`}>
                       {bouquet.name}
                     </Anchor>
                   </td>
@@ -40,5 +39,3 @@ export default function Bouquets() {
     </AdminLayout>
   );
 }
-
-Bouquets.Middleware = AdminMiddleware;

@@ -2,6 +2,7 @@ import { addDays, startOfDay } from "date-fns";
 import { publicProcedure } from "../trpc/init-trpc";
 import { CreatePurchaseInput } from "./api-schema";
 import { TRPCError } from "@trpc/server";
+import { Prisma } from "@prisma/client";
 import { Purchase, CreatedPurchase, PurchaseDetail } from "./core/types";
 import { prisma } from "../database/prisma";
 
@@ -56,30 +57,38 @@ async function validatePurchase(input: CreatePurchaseInput): Promise<Purchase> {
   return purchase;
 }
 
-// async function persistPurchase(purchase: Purchase): Promise<CreatedPurchase> {}
+async function persistPurchase(
+  tx: Prisma.TransactionClient,
+  validatedPurchase: Purchase
+): Promise<CreatedPurchase> {
+  const purchase = await tx.purchase.create({
+    data: {
+      deliveryDate: new Date(validatedPurchase.deliveryDate),
+      purchaseDetails: {
+        createMany: {
+          data: validatedPurchase.purchaseDetails.map((detail) => ({
+            flowerId: detail.flower.id,
+            orderQuantity: detail.orderQuantity,
+          })),
+        },
+      },
+    },
+    include: {
+      purchaseDetails: { include: { flower: true } },
+    },
+  });
+  return purchase;
+}
 
-async function sendOrderEmail(): Promise<void> {}
+async function sendOrderEmail(purchase: CreatedPurchase): Promise<void> {}
 
 export const createPurchase = publicProcedure
   .input(CreatePurchaseInput)
   .mutation(async ({ ctx, input }) => {
     const validatedPurchase = await validatePurchase(input);
-
     const purchase = await ctx.prisma.$transaction(async (tx) => {
-      const purchase = await tx.purchase.create({
-        data: {
-          deliveryDate: new Date(validatedPurchase.deliveryDate),
-          purchaseDetails: {
-            createMany: {
-              data: validatedPurchase.purchaseDetails.map((detail) => ({
-                flowerId: detail.flower.id,
-                orderQuantity: detail.orderQuantity,
-              })),
-            },
-          },
-        },
-      });
-      await sendOrderEmail();
+      const purchase = await persistPurchase(tx, validatedPurchase);
+      await sendOrderEmail(purchase);
 
       return purchase;
     });

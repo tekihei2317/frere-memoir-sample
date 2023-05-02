@@ -22,7 +22,7 @@ describe("createPurchase", () => {
     });
   });
 
-  test("納品希望日が早すぎる場合、エラーになること", async () => {
+  test("希望納品日が早すぎる場合、エラーになること", async () => {
     const createPurchase = caller.createPurchase({
       deliveryDate: formatDate(new Date()),
       details: [{ flowerId: flower.id, orderQuantity: 10 }],
@@ -36,7 +36,7 @@ describe("createPurchase", () => {
     );
   });
 
-  test("発注を登録できること", async () => {
+  test("仕入れを登録できること", async () => {
     const purchase = await caller.createPurchase({
       deliveryDate: formatDate(addDays(new Date(), 5)),
       details: [{ flowerId: flower.id, orderQuantity: 10 }],

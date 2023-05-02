@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 花
+model Flower {
+  id               Int             @id @default(autoincrement())
+  flowerCode       String          @unique
+  name             String
+  deliveryDays     Int // 発注リードタイム
+  purchaseQuantity Int // 購入単位数
+  maintanableDays  Int // 品質維持可能日数
+  bouquetDetails   BouquetDetail[]
+}
+
+// 花束
+model Bouquet {
+  id             Int             @id @default(autoincrement())
+  bouquetCode    String          @unique
+  name           String
+  bouquetDetails BouquetDetail[]
+}
+
+// 花束の部品表
+model BouquetDetail {
+  id             Int     @id @default(autoincrement())
+  bouquetId      Int
+  bouquet        Bouquet @relation(fields: [bouquetId], references: [id])
+  flowerId       Int
+  flower         Flower  @relation(fields: [flowerId], references: [id])
+  flowerQuantity Int
+}

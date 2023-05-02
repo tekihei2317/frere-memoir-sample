@@ -10,15 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ---- メンテナンスコンテキスト ----
+
 // 花
 model Flower {
-  id               Int             @id @default(autoincrement())
-  flowerCode       String          @unique
+  id               Int               @id @default(autoincrement())
+  flowerCode       String            @unique
   name             String
   deliveryDays     Int // 発注リードタイム
   purchaseQuantity Int // 購入単位数
   maintanableDays  Int // 品質維持可能日数
   bouquetDetails   BouquetDetail[]
+  purchaseDetails  PurchaseDetail[]
+  inventories      FlowerInventory[]
 }
 
 // 花束
@@ -37,4 +41,59 @@ model BouquetDetail {
   flowerId       Int
   flower         Flower  @relation(fields: [flowerId], references: [id])
   flowerQuantity Int
+}
+
+// ---- 仕入れコンテキスト ----
+
+// 花の発注
+model Purchase {
+  id              Int              @id @default(autoincrement())
+  deliveryDate    DateTime         @db.Date // 希望納品日
+  arrival         PurchaseArrival?
+  purchaseDetails PurchaseDetail[]
+}
+
+// 花の発注明細
+model PurchaseDetail {
+  id            Int      @id @default(autoincrement())
+  purchaseId    Int
+  purchase      Purchase @relation(fields: [purchaseId], references: [id])
+  flowerId      Int
+  flower        Flower   @relation(fields: [flowerId], references: [id])
+  orderQuantity Int // 本数
+}
+
+// 花の入荷イベント
+model PurchaseArrival {
+  id            Int                 @id @default(autoincrement())
+  flowerOrderId Int                 @unique
+  flowerOrder   Purchase            @relation(fields: [flowerOrderId], references: [id])
+  arrivedAt     DateTime
+  increases     InventoryIncrease[]
+}
+
+// ---- 在庫コンテキスト ----
+
+// 花の在庫増（入荷と在庫の交差表）
+model InventoryIncrease {
+  id              Int             @id @default(autoincrement())
+  arrivalId       Int
+  arrival         PurchaseArrival @relation(fields: [arrivalId], references: [id])
+  inventoryId     Int
+  flowerInventory FlowerInventory @relation(fields: [inventoryId], references: [id])
+  quantity        Int // 数量
+}
+
+// 花の日付別在庫
+model FlowerInventory {
+  id              Int                 @id @default(autoincrement())
+  flowerId        Int
+  flower          Flower              @relation(fields: [flowerId], references: [id])
+  arrivalDate     DateTime            @db.Date // 入荷日
+  currentQuantity Int                 @db.UnsignedInt // 現在の数量
+  increases       InventoryIncrease[] // 入荷
+  // disposals       FlowerDisposal[] // 廃棄
+  // shipments       BouquetOrderShipmentDetail[] // 出荷
+
+  @@unique([flowerId, arrivalDate])
 }

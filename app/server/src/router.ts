@@ -7,8 +7,9 @@ import {
 } from "./trpc/init-trpc";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { maintenanceRouter } from "./context-maintenance/router";
+import { purchaseRouter } from "./context-purchase/router";
 
-export const appRouter = mergeRouters(maintenanceRouter);
+export const appRouter = mergeRouters(maintenanceRouter, purchaseRouter);
 
 export type AppRouter = typeof appRouter;
 

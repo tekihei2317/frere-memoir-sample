@@ -1,10 +1,5 @@
 import { prisma } from "./database/prisma";
-import {
-  Context,
-  mergeRouters,
-  publicProcedure,
-  router,
-} from "./trpc/init-trpc";
+import { Context, mergeRouters } from "./trpc/init-trpc";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { maintenanceRouter } from "./context-maintenance/router";
 import { purchaseRouter } from "./context-purchase/router";

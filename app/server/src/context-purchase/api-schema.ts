@@ -22,5 +22,9 @@ export const CreatePurchaseInput = z.object({
   deliveryDate: DateString,
   details: z.array(PurchaseDetail).min(1),
 });
-
 export type CreatePurchaseInput = z.infer<typeof CreatePurchaseInput>;
+
+export const RegisterArrivalInput = z.object({
+  purchaseId: z.number(),
+});
+export type RegisterArrivalInput = z.infer<typeof RegisterArrivalInput>;

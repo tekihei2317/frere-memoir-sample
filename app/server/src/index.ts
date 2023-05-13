@@ -4,7 +4,7 @@ import { trpcMiddleware } from "./router";
 
 const app = express();
 
-app.use(cors({ origin: ["http://localhost:5174"] }));
+app.use(cors({ origin: ["http://localhost:5173"] }));
 app.use("/trpc", trpcMiddleware);
 
 const port = 3000;

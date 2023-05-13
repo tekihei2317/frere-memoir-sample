@@ -65,11 +65,11 @@ model PurchaseDetail {
 
 // 花の入荷イベント
 model PurchaseArrival {
-  id            Int                 @id @default(autoincrement())
-  flowerOrderId Int                 @unique
-  flowerOrder   Purchase            @relation(fields: [flowerOrderId], references: [id])
-  arrivedAt     DateTime
-  increases     InventoryIncrease[]
+  id         Int                 @id @default(autoincrement())
+  purchaseId Int                 @unique
+  purchase   Purchase            @relation(fields: [purchaseId], references: [id])
+  arrivedAt  DateTime
+  increases  InventoryIncrease[]
 }
 
 // ---- 在庫コンテキスト ----
